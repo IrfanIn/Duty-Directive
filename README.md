@@ -20,8 +20,8 @@ Duty Directive adalah sebuah platform manajemen tugas yang memungkinkan pengguna
 
 ### Teknologi yang Digunakan
 
-- **Backend**: Dikembangkan menggunakan bahasa pemrograman Python dengan kerangka kerja Flask. Database MySQL digunakan untuk penyimpanan data.
-- **Frontend**: Antarmuka pengguna dibangun dengan HTML, CSS, dan JavaScript dengan bantuan kerangka kerja Vue.js.
+- **Backend**: Dikembangkan menggunakan bahasa pemrograman javascript dengan Framework ExpressJs. Database MongoDb digunakan untuk penyimpanan data.
+- **Frontend**: Antarmuka pengguna dibangun dengan HTML, CSS, dan JavaScript dengan bantuan Framework ReactJs.
 - **Keamanan**: Otentikasi pengguna diimplementasikan dengan menggunakan token JWT untuk melindungi data pengguna.
 
 ### Kontribusi
