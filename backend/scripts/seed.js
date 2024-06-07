@@ -1,5 +1,5 @@
 const { db } = require('@vercel/postgres')
-const { users, projects, tasks, comments } = require('../src/lib/placeholder-data')
+const { users, projects, tasks, comments, role } = require('../src/lib/placeholder-data')
 const bcrypt = require('bcrypt')
 
 async function seedUsers(client) {
@@ -12,11 +12,11 @@ async function seedUsers(client) {
                 name VARCHAR(255) NOT NULL,
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
-                role VARCHAR(255) NOT NULL
+                role ENUM('manager', 'developer) NOT NULL
             );
         `
 
-        console.log('created users table');
+        console.log('created "users" table');
 
         const insertedUsers = await Promise.all(
             users.map(async (user) => {
@@ -54,9 +54,9 @@ async function seedProjects(client) {
             );
         `
 
-        console.log('created projects table');
+        console.log('created "projects" table');
 
-        const insertedProjects = await Promise.all(
+        const projects = await Promise.all(
             projects.map(async (item) => {
                 return client.sql`
                     INSERT INTO projects (id, project_name, description, start_date, end_date)
@@ -65,14 +65,14 @@ async function seedProjects(client) {
             })
         )
 
-        console.log(`Seeded ${insertedProjects.length} projects`);
+        console.log(`Seeded ${projects.length} projects`);
 
         return {
             createTable,
-            projects: insertedProjects
+            projects
         };
     } catch (error) {
-        console.log('Error seeding users:', error);
+        console.log('Error seeding projects:', error);
         throw error;
     }
 }
@@ -88,8 +88,8 @@ async function seedTasks(client) {
                 user_id UUID,
                 task_name VARCHAR(255) NOT NULL,
                 description TEXT NOT NULL,
-                status VARCHAR(255) NOT NULL,
-                priority VARCHAR(255) NOT NULL,
+                status ENUM('to_do', 'in_progress', 'done') NOT NULL,
+                priority ENUM('low', 'medium', 'high') NOT NULL,
                 start_date DATE NOT NULL,
                 end_date DATE NOT NULL,
                 FOREIGN KEY (project_id) REFERENCES projects(id),
@@ -97,9 +97,9 @@ async function seedTasks(client) {
             );
         `
 
-        console.log('created projects table');
+        console.log('created "tasks" table');
 
-        const insertedProjects = await Promise.all(
+        const tasks = await Promise.all(
             tasks.map(async (item) => {
                 return client.sql`
                     INSERT INTO tasks (id, project_id, user_id, task_name, description, status, priority, start_date, end_date)
@@ -108,14 +108,14 @@ async function seedTasks(client) {
             })
         )
 
-        console.log(`Seeded ${insertedProjects.length} projects`);
+        console.log(`Seeded ${tasks.length} tasks`);
 
         return {
             createTable,
-            projects: insertedProjects
+            tasks
         };
     } catch (error) {
-        console.log('Error seeding users:', error);
+        console.log('Error seeding tasks:', error);
         throw error;
     }
 }
@@ -136,9 +136,9 @@ async function seedComments(client) {
             );
         `
 
-        console.log('created comments table');
+        console.log('created "comments" table');
 
-        const projects = await Promise.all(
+        const comments = await Promise.all(
             comments.map(async (item) => {
                 return client.sql`
                     INSERT INTO comments (id, task_id, user_id, comment, created_at)
@@ -147,14 +147,52 @@ async function seedComments(client) {
             })
         )
 
-        console.log(`Seeded ${projects.length} projects`);
+        console.log(`Seeded ${comments.length} comments`);
 
         return {
             createTable,
-            projects: projects
+            comments
         };
     } catch (error) {
-        console.log('Error seeding users:', error);
+        console.log('Error seeding comments:', error);
+        throw error;
+    }
+}
+
+async function seedComments(client) {
+    try {
+        await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`
+
+        const createTable = await client.sql`
+            CREATE TABLE IF NOT EXISTS project_roles (
+                id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+                user_id UUID,
+                project_id UUID,
+                role ENUM('developer', 'manager'),
+                FOREIGN KEY (user_id) REFERENCES users(id),
+                FOREIGN KEY (project_id) REFERENCES projects(id),
+            );
+        `
+
+        console.log('created "Projects roles" table');
+
+        const role = await Promise.all(
+            role.map(async (item) => {
+                return client.sql`
+                    INSERT INTO projec_roles (user_id, project_id, role)
+                    VALUES (${item.user_id}, ${item.project_id}, ${item.role})
+                `
+            })
+        )
+
+        console.log(`Seeded ${role.length} role`);
+
+        return {
+            createTable,
+            role
+        };
+    } catch (error) {
+        console.log('Error seeding project role:', error);
         throw error;
     }
 }
