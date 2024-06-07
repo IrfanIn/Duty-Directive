@@ -57,8 +57,8 @@ const tasks = [
         description: "It is necessarry to agree with the customer the required number of pop- ups",
         start_date: '2024-06-07',
         end_date: '2024-06-10',
-        status: 'To Do',
-        priority: 'Low',
+        status: 'to_do',
+        priority: 'low',
     },
     {
         id: '410544b2-1002-4271-9855-fec4b6a6442a',
@@ -68,8 +68,8 @@ const tasks = [
         description: "the color scheme should be in neutral tones, the size of each icon is 24x24 px",
         start_date: '2024-06-07',
         end_date: '2024-06-10',
-        status: 'In Progress',
-        priority: 'Medium',
+        status: 'in_progress',
+        priority: 'medium',
     },
     {
         id: '410544b2-1003-4271-9855-fec4b6a6442a',
@@ -79,8 +79,8 @@ const tasks = [
         description: "it is necessary to develop a card design,",
         start_date: '2024-06-07',
         end_date: '2024-06-10',
-        status: 'In Progress',
-        priority: 'High',
+        status: 'in_progress',
+        priority: 'high',
     },
 ]
 
@@ -94,9 +94,33 @@ const comments = [
     }
 ]
 
+const role = [
+    {
+        user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+        project_id: '410544b2-5001-4271-9855-fec4b6a6442a',
+        role: 'manager',
+    },
+    {
+        user_id: '410544b2-4002-4271-9855-fec4b6a6442a',
+        project_id: '410544b2-5001-4271-9855-fec4b6a6442a',
+        role: 'developer',
+    },
+    {
+        user_id: '410544b2-4001-4271-9855-fec4b6a6442a',
+        project_id: '410544b2-5002-4271-9855-fec4b6a6442a',
+        role: 'manager',
+    },
+    {
+        user_id: '410544b2-4002-4271-9855-fec4b6a6442a',
+        project_id: '410544b2-5002-4271-9855-fec4b6a6442a',
+        role: 'developer',
+    }
+]
+
 module.exports = {
     users,
     projects,
     tasks,
     comments,
+    role
 }
