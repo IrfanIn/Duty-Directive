@@ -63,8 +63,11 @@ export default function Page() {
         </div>
 
         <div className="inline-flex gap-4 items-center text-sm my-6 p-3 bg-slate-100 rounded">
-          <button className="text-purple-500">Dashboard</button>|
-          <button>Timeline</button>|<button>Calendar</button>
+          <button className="bg-purple-500 rounded py-1 px-2 text-white">
+            Dashboard
+          </button>
+          <button>Timeline</button>
+          <button>Calendar</button>
         </div>
 
         <div className="grid grid-cols-3">
