@@ -42,7 +42,7 @@ export default function Page() {
         <div className="px-6 py-10 w-full h-52 rounded-t-xl bg-slate-100 flex items-end justify-between">
           <div className="flex justify-between w-full">
             <div className="flex gap-3">
-              <div className="w-8 h-8 bg-slate-300 rounded-full"></div>
+              <div className="w-8 h-8 bg-white rounded-full"></div>
               <h3 className="text-xl font-medium">Name Mesh</h3>
             </div>
             <div className="flex gap-6 text-sm">
@@ -85,7 +85,7 @@ export default function Page() {
             </div>
 
             <div className="p-3 pt-4 pl-5 bg-white w-full shadow rounded-xl space-y-3">
-              <div className="flex items-start justify-between gap-3">
+              <div className="flex items-start justify-between gap-3 relative">
                 <h3 className="font-semibold">
                   Decompose the task of creating popups
                 </h3>
