@@ -12,8 +12,8 @@ async function seedUsers(client) {
                 name VARCHAR(255) NOT NULL,
                 email TEXT NOT NULL UNIQUE,
                 password TEXT NOT NULL,
-                role VARCHAR(255) NOT NULL,
-            )
+                role VARCHAR(255) NOT NULL
+            );
         `
 
         console.log('created users table');
@@ -23,7 +23,7 @@ async function seedUsers(client) {
                 const hashedPassword = await bcrypt.hash(user.password, 10);
                 return client.sql`
                     INSERT INTO users (id, name, email, password, role)
-                    VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword}, ${user.role})
+                    VALUES (${user.id}, ${user.name}, ${user.email}, ${hashedPassword}, ${user.role});
                 `
             })
         )
@@ -47,11 +47,11 @@ async function seedProjects(client) {
         const createTable = await client.sql`
             CREATE TABLE IF NOT EXISTS projects (
                 id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-                project_name VARCHART(255) NOT NULL,
+                project_name VARCHAR(255) NOT NULL,
                 description TEXT NOT NULL,
                 start_date DATE NOT NULL,
-                end_date DATE NOT NULL,
-            )
+                end_date DATE NOT NULL
+            );
         `
 
         console.log('created projects table');
@@ -60,7 +60,7 @@ async function seedProjects(client) {
             projects.map(async (item) => {
                 return client.sql`
                     INSERT INTO projects (id, project_name, description, start_date, end_date)
-                    VALUES (${item.id}, ${item.project_name}, ${item.description}, ${item.start_date}, ${item.end_date})
+                    VALUES (${item.id}, ${item.project_name}, ${item.description}, ${item.start_date}, ${item.end_date});
                 `
             })
         )
@@ -84,17 +84,17 @@ async function seedTasks(client) {
         const createTable = await client.sql`
             CREATE TABLE IF NOT EXISTS tasks (
                 id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-                project_id VARCHAR(255),
-                user_id VARCHAR(255),
+                project_id UUID,
+                user_id UUID,
                 task_name VARCHAR(255) NOT NULL,
                 description TEXT NOT NULL,
                 status VARCHAR(255) NOT NULL,
                 priority VARCHAR(255) NOT NULL,
                 start_date DATE NOT NULL,
                 end_date DATE NOT NULL,
-                FOREIGN KEY (project_id) REFERENCES proejcts(project_id),
-                FOREIGN KEY (user_id) REFERENCES user(user_id)
-            )
+                FOREIGN KEY (project_id) REFERENCES projects(id),
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
         `
 
         console.log('created projects table');
@@ -103,7 +103,7 @@ async function seedTasks(client) {
             tasks.map(async (item) => {
                 return client.sql`
                     INSERT INTO tasks (id, project_id, user_id, task_name, description, status, priority, start_date, end_date)
-                    VALUES (${item.id}, ${item.project_id}, ${item.user_id}, ${item.task_name}, ${item.description}, ${item.status}, ${item.priority}, ${item.start_date}, ${item.end_date})
+                    VALUES (${item.id}, ${item.project_id}, ${item.user_id}, ${item.task_name}, ${item.description}, ${item.status}, ${item.priority}, ${item.start_date}, ${item.end_date});
                 `
             })
         )
@@ -125,23 +125,23 @@ async function seedComments(client) {
         await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`
 
         const createTable = await client.sql`
-            CREATE TABLE IF NOT EXISTS tasks (
+            CREATE TABLE IF NOT EXISTS comments (
                 id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-                task_id VARCHAR(255),
-                user_id VARCHAR(255),
+                task_id UUID,
+                user_id UUID,
                 comment TEXT NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (task_id) REFERENCES Tasks(task_id),
-                FOREIGN KEY (user_id) REFERENCES Users(user_id)
-            )
+                FOREIGN KEY (task_id) REFERENCES tasks(id),
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
         `
 
-        console.log('created projects table');
+        console.log('created comments table');
 
         const projects = await Promise.all(
             comments.map(async (item) => {
                 return client.sql`
-                    INSERT INTO tasks (id, task_id, user_id, comment, created_at)
+                    INSERT INTO comments (id, task_id, user_id, comment, created_at)
                     VALUES (${item.id}, ${item.task_id}, ${item.user_id}, ${item.comment}, ${item.created_at})
                 `
             })
