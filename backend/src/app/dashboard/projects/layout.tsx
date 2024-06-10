@@ -1,3 +1,4 @@
+import ProjectList from "@/components/projects/project-list";
 import { ArrowRightIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -10,10 +11,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           active
           <ChevronRightIcon className="w-4" />
         </button>
-        <Link href="" className="flex gap-2 font-medium ">
-          <ArrowRightIcon className="w-4" />
-          <p>Name mesh</p>
-        </Link>
+        <div className="space-y-3">
+          <ProjectList />
+        </div>
       </div>
       <div className="flex-1">{children}</div>
     </div>

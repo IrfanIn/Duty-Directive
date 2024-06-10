@@ -5,6 +5,7 @@ import {
   FolderOpenIcon,
   HomeIcon,
   UserGroupIcon,
+  RectangleGroupIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +13,7 @@ import { usePathname } from "next/navigation";
 
 const links = [
   {
-    icon: <HomeIcon className="w-6" />,
+    icon: <RectangleGroupIcon className="w-6" />,
     href: "/dashboard",
     title: "Dashboard",
   },

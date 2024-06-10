@@ -1,3 +1,4 @@
+import { getUserProjects } from "@/lib/data";
 import {
   ChatBubbleBottomCenterIcon,
   EllipsisVerticalIcon,
@@ -6,9 +7,11 @@ import {
   PlusIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { Key } from "react";
 
-export default function Page() {
+export default async function Page() {
   const users = [1, 2, 3, 4, 5, 6, 7];
+  const projects = await getUserProjects();
 
   return (
     <div className="flex gap-3">
@@ -84,43 +87,47 @@ export default function Page() {
               </button>
             </div>
 
-            <div className="p-3 pt-4 pl-5 bg-white w-full shadow rounded-xl space-y-3">
-              <div className="flex items-start justify-between gap-3 relative">
-                <h3 className="font-semibold">
-                  Decompose the task of creating popups
-                </h3>
-                <button>
-                  <EllipsisVerticalIcon className="w-8" />
-                </button>
-              </div>
-              <p className="text-sm">
-                It is necessarry to agree with the customer the required number
-                of pop-ups
-              </p>
-              {users.map(
-                (item, key) =>
-                  key < 4 && (
-                    <Image
-                      key={key}
-                      src="/images/person.png"
-                      width={200}
-                      height={100}
-                      alt="users contribution"
-                      className="inline-block h-4 w-4 rounded-full ring-2 ring-white"
-                    />
-                  )
-              )}
-              <hr />
-              <div className="flex justify-between">
-                <p className="py-1 px-2 text-xs rounded bg-purple-600 text-white">
-                  Docs
-                </p>
-                <div className="flex gap-3">
-                  <ChatBubbleBottomCenterIcon className="w-4 " />
-                  <PaperAirplaneIcon className="w-4" />
+            {projects.length > 0 ? (
+              projects.map((item) => (
+                <div
+                  key={item.id}
+                  className="p-3 pt-4 pl-5 bg-white w-full shadow rounded-xl space-y-3"
+                >
+                  <div className="flex items-start justify-between gap-3 relative">
+                    <h3 className="font-semibold">{item.project_name}</h3>
+                    <button>
+                      <EllipsisVerticalIcon className="w-8" />
+                    </button>
+                  </div>
+                  <p className="text-sm">{item.description}</p>
+                  {users.map(
+                    (item: any, key: Key | null | undefined) =>
+                      users.length < 4 && (
+                        <Image
+                          key={key}
+                          src="/images/person.png"
+                          width={200}
+                          height={100}
+                          alt="users contribution"
+                          className="inline-block h-4 w-4 rounded-full ring-2 ring-white"
+                        />
+                      )
+                  )}
+                  <hr />
+                  <div className="flex justify-between">
+                    <p className="py-1 px-2 text-xs rounded bg-purple-600 text-white">
+                      Docs
+                    </p>
+                    <div className="flex gap-3">
+                      <ChatBubbleBottomCenterIcon className="w-4 " />
+                      <PaperAirplaneIcon className="w-4" />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              ))
+            ) : (
+              <p className="text-danger-500">Not yet</p>
+            )}
           </div>
         </div>
       </div>
